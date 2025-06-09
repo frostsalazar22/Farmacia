@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class Usuario extends Authenticatable
 {
     use Notifiable;
 
     protected $table = 'usuarios';
 
     protected $fillable = [
-        'name', 'email', 'password', 'tipo',
+        'nome', 'email', 'password', 'tipo',
     ];
 
     protected $hidden = [

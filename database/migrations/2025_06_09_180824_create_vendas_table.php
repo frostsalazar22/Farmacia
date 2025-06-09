@@ -12,12 +12,15 @@ return new class extends Migration
      * @return void
      */
     public function up()
-{
-    Schema::table('users', function (Blueprint $table) {
-        $table->enum('role', ['cliente', 'funcionario', 'admin'])->default('cliente');
+    {
+    Schema::create('vendas', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('remedio_id')->constrained('remedios');
+        $table->foreignId('cliente_id')->constrained('usuarios');
+        $table->integer('quantidade');
+        $table->timestamps();
     });
-}
-
+    }
 
     /**
      * Reverse the migrations.
@@ -26,8 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('vendas');
     }
 };
