@@ -1,58 +1,39 @@
 <?php
 
-use App\Http\Controllers\ClienteController;
-use App\Http\Controllers\FuncionarioController;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\RemedioController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserController;
 
+// Página inicial
 Route::get('/', function () {
     return view('home');
 });
 
+// Rotas protegidas por autenticação
+Route::middleware(['auth'])->group(function () {
 
-Route::middleware('auth')->group(function () {
-    Route::get('/funcionario', [FuncionarioController::class, 'index'])->name('funcionario.gerenciar');
-    Route::get('/cliente', [ClienteController::class, 'index'])->name('cliente.index');
+    // Logout (método POST)
+    Route::post('/logout', function () {
+        Auth::logout();
+        return redirect('/');
+    })->name('logout');
+
+    // Rota para tela de gerenciamento de funcionário (Tales)
+    Route::get('/funcionario/gerenciar', [RemedioController::class, 'index'])->name('funcionario.gerenciar');
+
+    // Ações de CRUD de Remédios (acessíveis por funcionário e admin)
+    Route::post('/remedios', [RemedioController::class, 'store'])->name('funcionario.adicionar');
+    Route::put('/remedios/{id}', [RemedioController::class, 'update'])->name('funcionario.atualizar');
+    Route::delete('/remedios/{id}', [RemedioController::class, 'destroy'])->name('funcionario.remover');
+
+    // Rotas exclusivas para administrador (Henrique)
+    Route::middleware('admin')->group(function () {
+        Route::get('/admin/gerenciar', [AdminController::class, 'index'])->name('admin.gerenciar');
+        Route::post('/admin/adicionar-funcionario', [AdminController::class, 'adicionarFuncionario'])->name('admin.adicionarFuncionario');
+    });
 });
 
-
-// ROTAS SEM LOGIN:
-Route::get('/cliente', [ClienteController::class, 'index'])->name('cliente.index');
-
-
-Route::middleware('auth')->group(function () {
-    Route::get('/funcionario', [FuncionarioController::class, 'index'])->name('funcionario.gerenciar');
-
-    // 🟢 Adicionar novo remédio (POST)
-    Route::post('/funcionario/adicionar', [FuncionarioController::class, 'adicionar'])->name('funcionario.adicionar');
-
-    // 🟢 Atualizar remédio (PUT)
-    Route::put('/funcionario/{id}/atualizar', [FuncionarioController::class, 'atualizar'])->name('funcionario.atualizar');
-
-    // 🟢 Remover remédio (DELETE)
-    Route::delete('/funcionario/{id}/remover', [FuncionarioController::class, 'remover'])->name('funcionario.remover');
-});
-
-
-Route::get('/dashboard', function () {
-    return view('dashboard'); // crie essa view ou redirecione para outra página
-})->middleware(['auth'])->name('dashboard');
-
-
-
-Route::get('/logout', function () {
-    Auth::logout();
-    return redirect('/');
-})->name('logout');
-
-
-
-
-
-
-// Rota para o ADM
-Route::post('/admin/adicionar-funcionario', [AdminController::class, 'adicionarFuncionario'])->name('admin.adicionarFuncionario');
-
+// Rotas de autenticação padrão (geradas por Breeze, Jetstream etc.)
 require __DIR__.'/auth.php';
-
-

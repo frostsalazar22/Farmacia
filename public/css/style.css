@@ -1,0 +1,99 @@
+/* Reset simples */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+}
+
+/* Cabeçalho fixo */
+header {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Nome do usuário */
+.user-info {
+    font-weight: bold;
+}
+
+/* Botão de logout */
+.logout-btn {
+    background-color: #ff4c4c;
+    border: none;
+    padding: 5px 10px;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.logout-btn:hover {
+    background-color: #cc0000;
+}
+
+/* Container centralizado */
+.container {
+    max-width: 900px;
+    margin: 80px auto 40px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+/* Tabelas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table th, table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+}
+
+table th {
+    background-color: #eee;
+}
+
+/* Formulários */
+form {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+form input, form button {
+    padding: 8px;
+    font-size: 14px;
+}
+
+form button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #45a049;
+}
+
+/* Mini formulário de edição */
+.edit-form {
+    display: none;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.show-edit .edit-form {
+    display: flex;
+}
