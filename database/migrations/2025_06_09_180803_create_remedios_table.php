@@ -15,11 +15,11 @@ return new class extends Migration
     {
     Schema::create('remedios', function (Blueprint $table) {
         $table->id();
-        $table->string('Nome');
-        $table->integer('Quantidade');
-        $table->string('Miligrama')->nullable(); // exemplo: "500mg" ou "20g"
-        $table->date('Validade')->nullable();
-        $table->decimal('Preco', 8, 2);
+        $table->string('nome');
+        $table->integer('quantidade');
+        $table->string('miligrama')->nullable();
+        $table->date('validade')->nullable();
+        $table->decimal('preco', 8, 2);
         $table->timestamps();
     });
     }
