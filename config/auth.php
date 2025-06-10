@@ -10,7 +10,7 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'users', // deve estar igual ao de cima
+            'provider' => 'users',
         ],
     ],
 
@@ -19,8 +19,12 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-    ],
 
+        // 'users' => [
+        //     'driver' => 'database',
+        //     'table' => 'users',
+        // ],
+    ],
 
     'passwords' => [
         'users' => [
