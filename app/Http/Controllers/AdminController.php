@@ -18,16 +18,23 @@ class AdminController extends Controller
     public function adicionarFuncionario(Request $request)
     {
         $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users,email', // corrigido aqui
-            'password' => 'required|string|min:6',
+            'name' => [
+                'required',
+                'string',
+                'max:50',
+                'regex:/^[A-Za-zÀ-ú\s]{2,50}$/'
+            ],
+            'email' => 'required|email|unique:users,email|max:100',
+            'password' => 'required|string|min:6|max:20',
+            'role' => 'required|in:funcionario,admin',
         ]);
 
         User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'tipo' => 'funcionario',
+            'role' => $request->role,
+
         ]);
 
         return redirect()->back()->with('success', 'Funcionário cadastrado com sucesso!');

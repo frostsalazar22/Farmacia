@@ -27,13 +27,23 @@ class RemedioController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nome' => 'required|string|max:255',
-            'quantidade' => 'required|integer|min:0',
-            'miligrama' => 'required|string|max:50',
-            'validade' => 'required|date',
-            'preco' => 'required|numeric|min:0',
-        ]);
+$request->validate([
+    'nome' => [
+        'required',
+        'string',
+        'max:100',
+        'regex:/^[A-Za-zÀ-ú\s]{3,100}$/'
+    ],
+    'quantidade' => 'required|integer|min:1|max:10000',
+    'miligrama' => [
+        'required',
+        'string',
+        'max:20',
+        'regex:/^\d+(mg|g|ml)$/i'  // Exemplo: 500mg, 20g, 10ml
+    ],
+    'validade' => 'required|date|after:today',
+    'preco' => 'required|numeric|min:0.01|max:9999.99',
+]);
 
         Remedio::create($request->all());
 

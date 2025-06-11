@@ -23,6 +23,30 @@
     </header>
 
     <div class="container">
+
+        {{-- Mensagens de alerta --}}
+        @if(session('success'))
+            <div style="background-color: #d4edda; color: #155724; padding: 10px; margin-bottom: 10px; border-radius: 5px;">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if(session('error'))
+            <div style="background-color: #f8d7da; color: #721c24; padding: 10px; margin-bottom: 10px; border-radius: 5px;">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        <h3>Adicionar Novo Remédio</h3>
+        <form action="{{ route('funcionario.adicionar') }}" method="POST">
+            @csrf
+            <input type="text" name="nome" placeholder="Nome do Remédio" maxlength="100" required pattern="[A-Za-zÀ-ú\s]+">
+            <input type="number" name="quantidade" placeholder="Quantidade" min="1" max="10000" required>
+            <input type="text" name="miligrama" placeholder="Ex: 500mg, 20g" maxlength="20" required pattern="^\d+(mg|g|ml)$">
+            <input type="date" name="validade" required>
+            <input type="number" step="0.01" name="preco" placeholder="Preço" min="0.01" max="9999.99" required>
+            <button type="submit">Adicionar</button>
+        </form>
+
         <table>
             <thead>
                 <tr>
@@ -52,11 +76,11 @@
                             <form class="edit-form" action="{{ route('funcionario.atualizar', $remedio->id) }}" method="POST">
                                 @csrf
                                 @method('PUT')
-                                <input type="text" name="nome" value="{{ $remedio->nome }}">
-                                <input type="number" name="quantidade" value="{{ $remedio->quantidade }}">
-                                <input type="text" name="miligrama" value="{{ $remedio->miligrama }}">
-                                <input type="date" name="validade" value="{{ $remedio->validade }}">
-                                <input type="number" step="0.01" name="preco" value="{{ $remedio->preco }}">
+                                <input type="text" name="nome" value="{{ $remedio->nome }}" maxlength="100" required pattern="[A-Za-zÀ-ú\s]+">
+                                <input type="number" name="quantidade" value="{{ $remedio->quantidade }}" min="1" max="10000" required>
+                                <input type="text" name="miligrama" value="{{ $remedio->miligrama }}" maxlength="20" required pattern="^\d+(mg|g|ml)$">
+                                <input type="date" name="validade" value="{{ $remedio->validade }}" required>
+                                <input type="number" step="0.01" name="preco" value="{{ $remedio->preco }}" min="0.01" max="9999.99" required>
                                 <button type="submit">Salvar</button>
                             </form>
                         </td>
@@ -64,17 +88,6 @@
                 @endforeach
             </tbody>
         </table>
-
-        <h3>Adicionar Novo Remédio</h3>
-        <form action="{{ route('funcionario.adicionar') }}" method="POST">
-            @csrf
-            <input type="text" name="nome" placeholder="Nome do Remédio">
-            <input type="number" name="quantidade" placeholder="Quantidade">
-            <input type="text" name="miligrama" placeholder="Ex: 500mg, 20g">
-            <input type="date" name="validade">
-            <input type="number" step="0.01" name="preco" placeholder="Preço">
-            <button type="submit">Adicionar</button>
-        </form>
     </div>
 </body>
 </html>
